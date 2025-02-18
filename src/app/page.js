@@ -1,101 +1,105 @@
-import Image from "next/image";
+"use client";
+import { useEffect } from "react";
+import Header from '@/components/Header';
+import Hero from '@/components/Hero';
+import Footer from '@/components/Footer';
+import BeforeAfterSlider from '@/components/BeforeAfterSlider';
+import ContactIcons from '@/components/ContactIcons';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  useEffect(() => {
+    const fadeElements = document.querySelectorAll(".fade-in");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.05 }); // Анимация начинается быстрее
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+    fadeElements.forEach(el => observer.observe(el));
+  }, []);
+
+  return (
+    <>
+      <Header />
+      <main className="relative overflow-x-hidden">
+        
+        {/* Hero-секция */}
+        <Hero />
+
+        {/* О нас */}
+        <section id="about" className="fade-in flex flex-col items-center justify-center bg-[var(--color-secondary)]">
+          <div className="container mx-auto text-center">
+            <h2 className="text-5xl font-bold mb-6">О нас</h2>
+            <p className="max-w-3xl mx-auto text-lg">
+              Мы – команда профессионалов, специализирующихся на авто-детейлинге. Наш опыт и внимание к деталям гарантируют высокое качество услуг.
+            </p>
+          </div>
+        </section>
+
+        {/* Услуги */}
+        <section id="services" className="fade-in flex flex-col items-center justify-center">
+          <div className="container mx-auto">
+            <h2 className="text-5xl font-bold mb-10 text-center">Услуги</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Полировка */}
+              <div className="service-card p-6 flex flex-col justify-between">
+                <div 
+                  className="h-72 bg-cover bg-center rounded-lg"
+                  style={{ backgroundImage: "url('/images/polirovka.jpg')" }}
+                ></div>
+                <div>
+                  <h3 className="text-2xl font-semibold mt-4">Полировка</h3>
+                  <p>Высококачественная полировка для восстановления блеска вашего автомобиля.</p>
+                </div>
+              </div>
+              {/* Химчистка */}
+              <div className="service-card p-6 flex flex-col justify-between">
+                <div 
+                  className="h-72 bg-cover bg-center rounded-lg"
+                  style={{ backgroundImage: "url('/images/khimchistka.jpg')" }}
+                ></div>
+                <div>
+                  <h3 className="text-2xl font-semibold mt-4">Химчистка</h3>
+                  <p>Глубокая чистка салона с использованием профессиональных средств.</p>
+                </div>
+              </div>
+              {/* Защита кузова */}
+              <div className="service-card p-6 flex flex-col justify-between">
+                <div 
+                  className="h-72 bg-cover bg-center rounded-lg"
+                  style={{ backgroundImage: "url('/images/zashita.jpg')" }}
+                ></div>
+                <div>
+                  <h3 className="text-2xl font-semibold mt-4">Защита кузова</h3>
+                  <p>Нанесение защитных покрытий для сохранения идеального состояния автомобиля.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* До и После */}
+        <section id="portfolio" className="fade-in flex flex-col items-center justify-center bg-[var(--color-secondary)]">
+          <div className="container mx-auto text-center">
+            <h2 className="text-5xl font-bold mb-10">До и После</h2>
+            <BeforeAfterSlider images={[
+              { before: "/images/before1.jpg", after: "/images/after1.jpg" },
+              { before: "/images/before2.jpg", after: "/images/after2.jpg" },
+              { before: "/images/before3.jpg", after: "/images/after3.jpg" },
+            ]} />
+          </div>
+        </section>
+
+        {/* Контакты */}
+        <section id="contacts" className="fade-in flex flex-col items-center justify-center">
+          <h2 className="text-5xl font-bold mb-8">Контакты</h2>
+          <ContactIcons />
+        </section>
+
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

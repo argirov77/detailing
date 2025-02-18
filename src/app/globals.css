@@ -1,21 +1,43 @@
+/* globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Цветовая палитра */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg: #121212;                
+  --color-text: #f8f8f8;              
+  --color-primary: #027373;           
+  --color-secondary: #1E1E1E;         
+  --color-card-bg: #242424;           
+  --color-header-footer-bg: #1E1E1E;  
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Основные стили */
+body, html {
+  @apply bg-[var(--color-bg)] text-[var(--color-text)];
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: auto !important; /* Принудительно включаем скролл */
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Убираем возможное блокирование событий на видео */
+video {
+  pointer-events: auto !important;
+}
+
+/* Анимация появления секций */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* Стили секций */
+section {
+  @apply py-12 md:py-20;
 }
