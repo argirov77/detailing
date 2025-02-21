@@ -93,14 +93,24 @@ export default function Home() {
         </section>
 
         {/* Контакти */}
-        <section id="contacts" className="fade-in flex flex-col items-center justify-center">
+        <section id="contacts" className="fade-in flex flex-col items-center justify-center py-16">
           <div className="container mx-auto text-center">
             <h2 className="text-5xl font-bold mb-8">Контакти</h2>
+            {/* Добавяме снимка на член от екипа */}
+            <div className="mt-8">
+              <img 
+                src="/images/master.jpg" 
+                alt="Нашият експерт Алекс" 
+                className="mx-auto rounded-full w-32 h-32 object-cover" 
+              />
+              <p className="text-white mt-4" text-color="orange" ><b>Нашият експерт Алекс</b></p>
+            </div>
             <p className="max-w-xl mx-auto text-lg mb-6">
               Свържете се с нас по удобния за вас начин и получете безплатна консултация!
             </p>
             <ContactIcons />
-            {/* Добавяме карта */}
+            
+            {/* Карта с адрес */}
             <Map />
           </div>
         </section>

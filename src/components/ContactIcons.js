@@ -1,31 +1,14 @@
-"use client";
-import { FaWhatsapp, FaTelegram, FaViber, FaPhoneAlt } from 'react-icons/fa';
+import { FaWhatsapp, FaTelegram, FaViber, FaPhoneAlt, FaInstagram } from 'react-icons/fa';
 
 export default function ContactIcons() {
-  const phoneNumber = '+359893976715'; // Ваш номер
-  const rawMessage = 'Здравейте, искам да се възползвам от безплатна консултация.';
-  const message = encodeURIComponent(rawMessage);
-
-  // WhatsApp:
-  //   https://wa.me/<phoneWithoutPlus>?text=...
-  // Telegram (общий share):
-  //   https://t.me/share/url?url=&text=...
-  // Viber (пересылка текста):
-  //   viber://forward?text=...
-  //   (Нет официального URI для прямого чата с номером + текстом без Viber API)
-  // Phone:
-  //   tel:<phoneNumber>
-
-  // Удаляем "+" для wa.me:
-  const phoneForWhatsApp = phoneNumber.replace('+', '');
-
+  const phoneNumber = '+359893976715'; // Номер администратора
+  const message = encodeURIComponent('Здравейте, искам да се възползвам от безплатна консултация.');
+  const phoneForWhatsApp = phoneNumber.replace('+', ''); // для wa.me
+  
   return (
     <div className="flex space-x-6 justify-center items-center text-3xl">
       {/* Телефон */}
-      <a
-        href={`tel:${phoneNumber}`}
-        className="text-blue-600 hover:text-blue-800"
-      >
+      <a href={`tel:${phoneNumber}`} className="text-blue-600 hover:text-blue-800">
         <FaPhoneAlt />
       </a>
       
@@ -41,7 +24,7 @@ export default function ContactIcons() {
       
       {/* Telegram */}
       <a
-        href={`https://t.me/share/url?url=&text=${message}`}
+        href="https://t.me/YourTelegramUsername"  // Замените на свой Telegram username
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-500 hover:text-blue-700"
@@ -51,12 +34,22 @@ export default function ContactIcons() {
       
       {/* Viber */}
       <a
-        href={`viber://forward?text=${message}`}
+        href={`viber://chat?number=${phoneNumber}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-purple-600 hover:text-purple-800"
       >
         <FaViber />
+      </a>
+      
+      {/* Instagram */}
+      <a
+        href="https://instagram.com/sva_cardetailing"  // Замените на свой Instagram username
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-pink-500 hover:text-pink-700"
+      >
+        <FaInstagram />
       </a>
     </div>
   );
