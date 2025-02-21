@@ -24,7 +24,7 @@ export default function ContactIcons() {
       
       {/* Telegram */}
       <a
-        href="https://t.me/YourTelegramUsername"  // Замените на свой Telegram username
+        href="https://t.me/ManDiversity"  // Замените на свой Telegram username
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-500 hover:text-blue-700"
