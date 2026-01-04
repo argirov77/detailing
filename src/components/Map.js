@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Map() {
+  const { language, t } = useLanguage();
   // Пример координат (замените при необходимости)
   const lat = 43.21073;
   const lng = 27.94054;
@@ -10,7 +12,7 @@ export default function Map() {
   return (
     <div className="w-full h-96 mt-8 rounded-lg overflow-hidden border border-gray-600">
       <iframe
-        src={`https://maps.google.com/maps?q=${lat},${lng}&z=${zoom}&hl=bg&output=embed`}
+        src={`https://maps.google.com/maps?q=${lat},${lng}&z=${zoom}&hl=${language}&output=embed`}
         width="100%"
         height="100%"
         frameBorder="0"
@@ -18,7 +20,7 @@ export default function Map() {
         allowFullScreen=""
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-        title="Карта: Варна, Княз Борис 1ви 141"
+        title={t("mapTitle")}
       ></iframe>
     </div>
   );
