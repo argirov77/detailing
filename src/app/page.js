@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -9,8 +10,11 @@ import ContactIcons from "@/components/ContactIcons";
 import Map from "@/components/Map";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+const QuizWizard = dynamic(() => import("@/components/QuizWizard"), { ssr: false });
+
 export default function Home() {
   const { t } = useLanguage();
+  const [showQuiz, setShowQuiz] = useState(false);
   useEffect(() => {
     const fadeElements = document.querySelectorAll(".fade-in");
     const observer = new IntersectionObserver(
@@ -31,7 +35,7 @@ export default function Home() {
       <Header />
       <main className="relative overflow-x-hidden">
         {/* Hero */}
-        <Hero />
+        <Hero onOpenQuiz={() => setShowQuiz(true)} />
 
         {/* За нас */}
         <section
@@ -111,6 +115,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      {showQuiz ? <QuizWizard open={showQuiz} onClose={() => setShowQuiz(false)} /> : null}
     </>
   );
 }
