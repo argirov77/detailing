@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-export default function Hero() {
+export default function Hero({ onOpenQuiz }) {
   const videoRef = useRef(null);
   const [isIOS, setIsIOS] = useState(null);
   const { t } = useLanguage();
@@ -51,8 +51,11 @@ export default function Hero() {
     };
   }, [isIOS]);
 
-  // Функция за плавно превъртане до секцията "Контакти"
-  const scrollToContacts = () => {
+  const handleCta = () => {
+    if (onOpenQuiz) {
+      onOpenQuiz();
+      return;
+    }
     const contactsSection = document.getElementById("contacts");
     if (contactsSection) {
       contactsSection.scrollIntoView({ behavior: "smooth" });
@@ -95,7 +98,7 @@ export default function Hero() {
         <h1 className="text-5xl font-bold">{t("hero.title")}</h1>
         <p className="text-xl mt-4">{t("hero.subtitle")}</p>
         <button
-          onClick={scrollToContacts}
+          onClick={handleCta}
           className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
         >
           {t("hero.cta")}
