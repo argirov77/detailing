@@ -30,6 +30,30 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleHashOpen = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash;
+      if (hash === "#booking" || hash === "#quiz") {
+        setShowQuiz(true);
+      }
+    };
+
+    handleHashOpen();
+    window.addEventListener("hashchange", handleHashOpen);
+    return () => window.removeEventListener("hashchange", handleHashOpen);
+  }, []);
+
+  const closeQuiz = () => {
+    setShowQuiz(false);
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash === "#booking" || hash === "#quiz") {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -121,7 +145,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-      {showQuiz ? <QuizWizard open={showQuiz} onClose={() => setShowQuiz(false)} /> : null}
+      {showQuiz ? <QuizWizard open={showQuiz} onClose={closeQuiz} /> : null}
     </>
   );
 }
