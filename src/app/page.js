@@ -42,9 +42,15 @@ export default function Home() {
           id="about"
           className="fade-in flex flex-col items-center justify-center bg-[var(--color-secondary)]"
         >
-          <div className="container mx-auto text-center">
-            <h2 className="text-5xl font-bold mb-6">{t("about.title")}</h2>
+          <div className="container mx-auto text-center space-y-6 py-12">
+            <h2 className="text-5xl font-bold">{t("about.title")}</h2>
             <p className="max-w-3xl mx-auto text-lg">{t("about.description")}</p>
+            <button
+              onClick={() => setShowQuiz(true)}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+            >
+              {t("about.quizCta")}
+            </button>
           </div>
         </section>
 

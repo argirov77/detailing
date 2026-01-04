@@ -19,6 +19,7 @@ const translations = {
       title: "За нас",
       description:
         "SVA Детайлинг е студио за професионален автомобилен детайлинг. Работим с внимание към всеки детайл и подбираме процедури според състоянието на автомобила, за да постигнем максимален ефект и дълготрайна защита.",
+      quizCta: "Попълни QUIZ",
     },
     services: {
       title: "Услуги",
@@ -78,6 +79,7 @@ const translations = {
       title: "About us",
       description:
         "SVA Detailing is a studio for professional car detailing. We work with attention to every detail and tailor procedures to the condition of the vehicle to achieve maximum effect and long-lasting protection.",
+      quizCta: "Take the quiz",
     },
     services: {
       title: "Services",
@@ -137,6 +139,7 @@ const translations = {
       title: "О нас",
       description:
         "SVA Детейлинг — студия профессионального автомобильного детейлинга. Мы работаем внимательно к каждой детали и подбираем процедуры по состоянию автомобиля, чтобы добиться максимального эффекта и долгосрочной защиты.",
+      quizCta: "Пройти QUIZ",
     },
     services: {
       title: "Услуги",
