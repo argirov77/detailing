@@ -1,4 +1,5 @@
-import './globals.css';
+import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata = {
   title: 'SVA Detailing',
@@ -9,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="bg">
       <body className="antialiased">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

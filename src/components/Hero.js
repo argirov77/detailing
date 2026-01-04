@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
   const videoRef = useRef(null);
   const [isIOS, setIsIOS] = useState(null);
+  const { t } = useLanguage();
 
   // Определяме типа устройство (iOS или не-iOS)
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function Hero() {
   };
 
   if (isIOS === null) {
-    return <div>Зарежда се...</div>;
+    return <div>{t("hero.loading")}</div>;
   }
 
   return (
@@ -90,13 +92,13 @@ export default function Hero() {
       
       {/* Съдържание върху видеото */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-        <h1 className="text-5xl font-bold">SVA Детейлинг</h1>
-        <p className="text-xl mt-4">Професионален детейлинг за вашия автомобил</p>
+        <h1 className="text-5xl font-bold">{t("hero.title")}</h1>
+        <p className="text-xl mt-4">{t("hero.subtitle")}</p>
         <button
           onClick={scrollToContacts}
           className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
         >
-          Запази час
+          {t("hero.cta")}
         </button>
       </div>
     </section>

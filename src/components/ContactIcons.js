@@ -1,8 +1,12 @@
+"use client";
+
 import { FaWhatsapp, FaTelegram, FaViber, FaPhoneAlt, FaInstagram } from 'react-icons/fa';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ContactIcons() {
+  const { t } = useLanguage();
   const phoneNumber = '+359893976715'; // Номер администратора
-  const message = encodeURIComponent('Здравейте, искам да се възползвам от безплатна консултация.');
+  const message = encodeURIComponent(t("contacts.whatsappMessage"));
   const phoneForWhatsApp = phoneNumber.replace('+', ''); // для wa.me
   
   return (

@@ -2,8 +2,10 @@
 import { useState, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function BeforeAfterSlider({ images }) {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);           // текущата двойка
   const [sliderPosition, setSliderPosition] = useState(50); // позиция на плъзгача (в проценти)
   const containerRef = useRef(null);
@@ -82,13 +84,13 @@ export default function BeforeAfterSlider({ images }) {
             {/* Долно изображение (След) */}
             <img
               src={images[index].after}
-              alt="След"
+              alt={t("portfolio.slider.after")}
               className="absolute inset-0 w-full h-full object-cover"
             />
             {/* Горно изображение (Преди), което се скрива чрез clip-path */}
             <img
               src={images[index].before}
-              alt="Преди"
+              alt={t("portfolio.slider.before")}
               className="absolute inset-0 w-full h-full object-cover"
               style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
             />
