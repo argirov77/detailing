@@ -493,9 +493,11 @@ export default function QuizWizard({ open, onClose }) {
     setErrors("");
     setIsSubmitting(true);
     const payload = {
+      createdAt: new Date().toISOString(),
       lang: language,
       serviceCategory: formData.serviceCategory,
-      serviceOtherText: formData.serviceOtherText,
+      serviceOtherText:
+        formData.serviceCategory === "other" ? formData.serviceOtherText : "",
       package: formData.package,
       carBrand: formData.carBrand,
       carModel: formData.carModel,
@@ -504,10 +506,10 @@ export default function QuizWizard({ open, onClose }) {
       name: formData.name,
       phone: formData.phone,
       comment: formData.comment,
-      pageUrl: typeof window !== "undefined" ? window.location.href : "",
-      createdAt: new Date().toISOString(),
       website: "",
     };
+
+    console.log("Submitting quiz payload", payload);
 
     try {
       const response = await fetch(QUIZ_ENDPOINT, {
@@ -515,8 +517,18 @@ export default function QuizWizard({ open, onClose }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await response.json();
-      if (data?.ok) {
+      console.log("Quiz response status", response.status);
+      const responseText = await response.text();
+      console.log("Quiz response text", responseText);
+
+      let data = null;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Failed to parse quiz response", parseError);
+      }
+
+      if (response.ok && data?.ok === true) {
         setStep("success");
       } else {
         setErrors(copy.details.error);
