@@ -99,7 +99,7 @@ export default function Hero({ onOpenQuiz }) {
         <p className="text-xl mt-4">{t("hero.subtitle")}</p>
         <button
           onClick={handleCta}
-          className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+          className="mt-6 px-6 py-3 min-h-[52px] bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
         >
           {t("hero.cta")}
         </button>
