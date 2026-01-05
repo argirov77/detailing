@@ -360,6 +360,7 @@ export default function QuizWizard({ open, onClose }) {
 
   const overlayRef = useRef(null);
   const autoAdvanceRef = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -410,6 +411,25 @@ export default function QuizWizard({ open, onClose }) {
   }, [displayedImage]);
 
   useEffect(() => () => autoAdvanceRef.current && clearTimeout(autoAdvanceRef.current), []);
+
+  useEffect(() => {
+    const container = contentRef.current;
+    if (!container) return;
+
+    const scrollToTop = () => {
+      if (typeof container.scrollTo === "function") {
+        container.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        container.scrollTop = 0;
+      }
+    };
+
+    if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+      window.requestAnimationFrame(scrollToTop);
+    } else {
+      scrollToTop();
+    }
+  }, [step]);
 
   const filteredBrands = useMemo(() => {
     return carData
@@ -956,7 +976,10 @@ export default function QuizWizard({ open, onClose }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
         </div>
 
-        <div className="relative z-10 mt-auto flex w-full flex-col rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:shadow-none md:backdrop-blur-0">
+        <div
+          ref={contentRef}
+          className="relative z-10 mt-auto flex w-full flex-col rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:shadow-none md:backdrop-blur-0"
+        >
           {step !== "success" && (
             <div className="mb-4 flex items-center gap-3">
               <div className="text-sm font-semibold text-white/70">
