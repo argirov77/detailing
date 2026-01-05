@@ -942,18 +942,27 @@ export default function QuizWizard({ open, onClose }) {
         </button>
 
         <div className="absolute inset-0 h-full w-full md:relative md:inset-auto md:h-auto md:w-5/12 md:min-h-full md:after:pointer-events-none md:after:absolute md:after:top-0 md:after:right-0 md:after:h-full md:after:w-14 md:after:bg-gradient-to-r md:after:from-transparent md:after:to-[#0f172a]/90">
-          {imageStack.map((layer) => (
-            <img
-              key={layer.id}
-              src={layer.src}
-              alt="Founder"
-              className={`absolute inset-0 h-full w-full scale-[1.03] object-cover transition-all duration-500 ease-out ${
-                layer.visible ? "opacity-100" : "translate-y-1 opacity-0"
-              }`}
-            />
-          ))}
-          <div className="absolute inset-0 bg-black/45" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+          <figure
+            className="relative isolate flex h-full w-full max-h-[60vh] items-center justify-center overflow-hidden rounded-none bg-[#0b1220] md:max-h-none md:min-h-full md:rounded-l-2xl"
+          >
+            <div className="absolute inset-0 aspect-[4/5] w-full md:aspect-auto" />
+            {imageStack.map((layer) => (
+              <img
+                key={layer.id}
+                src={layer.src}
+                srcSet={`${layer.src} 1x, ${layer.src} 2x`}
+                sizes="(min-width: 768px) 40vw, 100vw"
+                loading="lazy"
+                decoding="async"
+                alt="Founder"
+                className={`absolute inset-0 h-full max-h-full w-full max-w-full object-contain object-center transition-all duration-500 ease-out ${
+                  layer.visible ? "opacity-100" : "translate-y-1 opacity-0"
+                }`}
+              />
+            ))}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+            <div className="absolute inset-0 bg-black/45" />
+          </figure>
         </div>
 
         <div className="relative z-10 mt-auto flex w-full flex-col rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:shadow-none md:backdrop-blur-0">
