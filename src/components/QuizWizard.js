@@ -623,24 +623,43 @@ export default function QuizWizard({ open, onClose }) {
                   : card === "fullRestart"
                   ? copy.packages.badges.fullRestart
                   : "";
+              const badgeStyle =
+                card === "restartPlus"
+                  ? "bg-gradient-to-r from-amber-300 to-orange-500 text-slate-900 shadow-md shadow-orange-500/30"
+                  : card === "fullRestart"
+                  ? "bg-gradient-to-r from-indigo-400 to-violet-600 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-white/15 text-white";
+              const accentStyle =
+                card === "restartPlus"
+                  ? "from-amber-300/90 to-orange-500/80"
+                  : card === "fullRestart"
+                  ? "from-indigo-400/90 to-violet-700/80"
+                  : "from-sky-300/90 to-cyan-400/80";
               return (
                 <button
                   key={card}
                   onClick={() => handlePackageSelect(card)}
-                  className={`group relative rounded-xl border border-white/10 bg-white/5 p-4 text-left text-white shadow-lg transition hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 ${
-                    selected ? "ring-2 ring-white/70" : ""
+                  className={`group relative flex h-full flex-col gap-3 overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4 text-left text-white shadow-lg transition hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 hover:shadow-xl ${
+                    selected ? "ring-2 ring-offset-2 ring-offset-[#0f172a] ring-white/70" : ""
                   }`}
                 >
-                  {badge ? (
-                    <span className="absolute right-3 top-3 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase text-white">
-                      {badge}
-                    </span>
-                  ) : null}
-                  <p className="text-lg font-semibold mb-2">{copy.packages.cards[card].title}</p>
-                  <ul className="space-y-1 text-sm text-white/80">
+                  <span className={`h-1.5 w-full rounded-full bg-gradient-to-r ${accentStyle}`} />
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-lg font-semibold">{copy.packages.cards[card].title}</p>
+                    {badge ? (
+                      <span
+                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide ${badgeStyle}`}
+                      >
+                        ✦ {badge}
+                      </span>
+                    ) : null}
+                  </div>
+                  <ul className="space-y-2 rounded-lg bg-white/5 p-3 text-sm text-white/80 ring-1 ring-inset ring-white/5">
                     {copy.packages.cards[card].bullets.map((item) => (
                       <li key={item} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-white/70" />
+                        <span
+                          className={`mt-1 h-2 w-2 rounded-full bg-gradient-to-br shadow-sm ${accentStyle} shadow-black/20`}
+                        />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -894,7 +913,7 @@ export default function QuizWizard({ open, onClose }) {
       onClick={handleOverlayClick}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 backdrop-blur"
     >
-      <div className="relative flex w-full max-w-5xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row">
+      <div className="relative flex w-full max-w-5xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row md:items-stretch">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20"
@@ -902,7 +921,7 @@ export default function QuizWizard({ open, onClose }) {
           ✕
         </button>
 
-        <div className="relative h-52 w-full md:h-auto md:w-5/12">
+        <div className="relative h-52 w-full md:h-auto md:w-5/12 md:after:pointer-events-none md:after:absolute md:after:top-0 md:after:right-0 md:after:h-full md:after:w-14 md:after:bg-gradient-to-r md:after:from-transparent md:after:to-[#0f172a]/90">
           {imageStack.map((layer) => (
             <img
               key={layer.id}
@@ -916,7 +935,7 @@ export default function QuizWizard({ open, onClose }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10" />
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6 md:px-8 md:py-8">
+        <div className="flex-1 overflow-y-auto px-5 py-5 md:-ml-6 md:px-7 md:py-8">
           {step !== "success" && (
             <div className="mb-4 flex items-center gap-3">
               <div className="text-sm font-semibold text-white/70">
@@ -932,7 +951,7 @@ export default function QuizWizard({ open, onClose }) {
           )}
 
           <div
-            className={`rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner transition-all duration-200 ${
+            className={`rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner transition-all duration-200 md:rounded-l-xl md:rounded-r-2xl ${
               contentAnimating ? "translate-y-2 opacity-70" : "opacity-100"
             }`}
           >
