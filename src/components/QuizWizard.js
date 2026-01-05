@@ -588,7 +588,7 @@ export default function QuizWizard({ open, onClose }) {
           <p className="text-sm text-white/60">{copy.welcome.note}</p>
           <button
             onClick={() => goToStep(2)}
-            className="mt-4 inline-flex items-center justify-center rounded-lg bg-[#3b82f6] px-6 py-3 text-white font-semibold shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:bg-[#2563eb]"
+            className="mt-4 inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[#3b82f6] px-6 py-3 text-white font-semibold shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:bg-[#2563eb]"
           >
             {copy.welcome.cta}
           </button>
@@ -606,7 +606,7 @@ export default function QuizWizard({ open, onClose }) {
               <button
                 key={key}
                 onClick={() => handleCategorySelect(key)}
-                className={`rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left text-white transition hover:border-white/30 hover:bg-white/10 ${
+                className={`min-h-[52px] rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left text-white transition hover:border-white/30 hover:bg-white/10 ${
                   formData.serviceCategory === key ? "ring-2 ring-white/60" : ""
                 }`}
               >
@@ -629,7 +629,7 @@ export default function QuizWizard({ open, onClose }) {
               <div className="flex justify-end">
                 <button
                   onClick={handleOtherConfirm}
-                  className="rounded-lg bg-white/20 px-4 py-2 text-white transition hover:bg-white/30"
+                  className="rounded-lg bg-white/20 px-4 py-2 min-h-[48px] text-white transition hover:bg-white/30"
                 >
                   {copy.category.otherCta}
                 </button>
@@ -699,17 +699,17 @@ export default function QuizWizard({ open, onClose }) {
               );
             })}
           </div>
-          <div className="flex justify-between items-center">
+          <div className="sticky bottom-0 left-0 right-0 -mx-5 -mb-5 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-5 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
             <button
               onClick={() => goToStep(2)}
-              className="rounded-lg border border-white/20 px-4 py-2 text-white transition hover:border-white/40 hover:bg-white/10"
+              className="min-h-[52px] rounded-lg border border-white/20 px-4 py-2 text-white transition hover:border-white/40 hover:bg-white/10"
             >
               ←
             </button>
             <button
               onClick={() => goToStep(4)}
               disabled={!formData.package}
-              className="rounded-lg bg-white/20 px-5 py-2 text-white transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-50"
+              className="min-h-[52px] rounded-lg bg-white/20 px-5 py-2 text-white transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {copy.packages.continue}
             </button>
@@ -906,18 +906,18 @@ export default function QuizWizard({ open, onClose }) {
             </div>
           </div>
           {errors && <p className="text-sm text-red-300">{errors}</p>}
-          <div className="flex items-center justify-between">
+          <div className="sticky bottom-0 left-0 right-0 -mx-5 -mb-5 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-5 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
             <button
               type="button"
               onClick={() => goToStep(3)}
-              className="rounded-lg border border-white/20 px-4 py-2 text-white transition hover:border-white/40 hover:bg-white/10"
+              className="min-h-[52px] rounded-lg border border-white/20 px-4 py-2 text-white transition hover:border-white/40 hover:bg-white/10"
             >
               ←
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-lg bg-[#22c55e] px-6 py-2 font-semibold text-black shadow-lg shadow-green-500/20 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-[52px] rounded-lg bg-[#22c55e] px-6 py-2 font-semibold text-black shadow-lg shadow-green-500/20 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? copy.details.sending : copy.details.submit}
             </button>
@@ -932,7 +932,7 @@ export default function QuizWizard({ open, onClose }) {
         <p className="text-white/80">{copy.success.text}</p>
         <button
           onClick={onClose}
-          className="rounded-lg bg-white/20 px-5 py-2 text-white transition hover:bg-white/30"
+          className="min-h-[52px] rounded-lg bg-white/20 px-5 py-2 text-white transition hover:bg-white/30"
         >
           {copy.success.cta}
         </button>
@@ -944,7 +944,7 @@ export default function QuizWizard({ open, onClose }) {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex min-h-[100dvh] items-end justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 pb-[env(safe-area-inset-bottom)] backdrop-blur md:items-center"
+      className="fixed inset-0 z-50 flex min-h-[100dvh] items-end justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] pt-[calc(env(safe-area-inset-top)+1.25rem)] backdrop-blur md:items-center"
     >
       <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row md:items-stretch">
         <button
@@ -974,9 +974,9 @@ export default function QuizWizard({ open, onClose }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
         </div>
 
-        <div className="relative z-10 mt-auto flex w-full flex-col rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:shadow-none md:backdrop-blur-0">
+        <div className="relative z-10 mt-auto flex w-full flex-col gap-3 rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:pb-8 md:shadow-none md:backdrop-blur-0">
           {step !== "success" && (
-            <div className="mb-4 flex items-center gap-3">
+            <div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center gap-3 bg-gradient-to-b from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)] md:static md:-mx-0 md:-mt-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
               <div className="text-sm font-semibold text-white/70">
                 {copy.step(step, totalSteps)}
               </div>

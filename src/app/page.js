@@ -72,7 +72,7 @@ export default function Home() {
             <p className="max-w-3xl mx-auto text-lg">{t("about.description")}</p>
             <button
               onClick={() => setShowQuiz(true)}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+              className="px-6 py-3 min-h-[52px] bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
             >
               {t("about.quizCta")}
             </button>
