@@ -299,11 +299,11 @@ const carData = [
 ];
 
 const stepImages = {
-  1: "/images/quiz/welcome.jpeg",
-  2: "/images/quiz/point.jpeg",
-  3: "/images/quiz/introduction.jpeg",
-  4: "/images/quiz/book.jpeg",
-  success: "/images/quiz/like.jpeg",
+  1: "/images/quiz/png/welcome.png",
+  2: "/images/quiz/png/point.png",
+  3: "/images/quiz/png/introduction.png",
+  4: "/images/quiz/png/book.png",
+  success: "/images/quiz/png/like.png",
 };
 
 export default function QuizWizard({ open, onClose }) {
@@ -345,11 +345,22 @@ export default function QuizWizard({ open, onClose }) {
     const handler = (e) => {
       if (e.key === "Escape") onClose?.();
     };
+    const scrollY = window.scrollY;
+    const { overflow, position, top, width } = document.body.style;
+
     document.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+
     return () => {
       document.removeEventListener("keydown", handler);
-      document.body.style.overflow = "";
+      document.body.style.overflow = overflow;
+      document.body.style.position = position;
+      document.body.style.top = top;
+      document.body.style.width = width;
+      window.scrollTo(0, scrollY);
     };
   }, [open, onClose]);
 
@@ -853,9 +864,9 @@ export default function QuizWizard({ open, onClose }) {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3 py-6 backdrop-blur"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 backdrop-blur"
     >
-      <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:flex-row">
+      <div className="relative flex w-full max-w-5xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20"
