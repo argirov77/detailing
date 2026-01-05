@@ -88,6 +88,13 @@ const quizCopy = {
       submit: "Изпрати",
       sending: "Изпращане...",
       error: "Моля, попълни задължителните полета.",
+      missingFieldsLabel: "Липсващи полета:",
+      invalidYear: "Моля, въведи валидна година между 1980 и 2026.",
+      requiredLabels: {
+        service: "Услуга",
+        package: "Пакет",
+        otherTask: "Задача",
+      },
     },
     success: {
       title: "Получих заявката!",
@@ -175,6 +182,13 @@ const quizCopy = {
       submit: "Отправить",
       sending: "Отправка...",
       error: "Пожалуйста, заполните обязательные поля.",
+      missingFieldsLabel: "Не заполнены поля:",
+      invalidYear: "Введите год в диапазоне 1980–2026.",
+      requiredLabels: {
+        service: "Услуга",
+        package: "Пакет",
+        otherTask: "Задача",
+      },
     },
     success: {
       title: "Заявка получена!",
@@ -262,6 +276,13 @@ const quizCopy = {
       submit: "Send",
       sending: "Sending...",
       error: "Please fill in the required fields.",
+      missingFieldsLabel: "Missing fields:",
+      invalidYear: "Enter a valid year between 1980 and 2026.",
+      requiredLabels: {
+        service: "Service",
+        package: "Package",
+        otherTask: "Task",
+      },
     },
     success: {
       title: "Request received!",
@@ -417,6 +438,24 @@ export default function QuizWizard({ open, onClose }) {
     setStep(nextStep);
   };
 
+  const getMissingFields = () => {
+    const missing = [];
+
+    if (!formData.serviceCategory) missing.push(copy.details.requiredLabels.service);
+    if (formData.serviceCategory === "other" && !formData.serviceOtherText.trim()) {
+      missing.push(copy.details.requiredLabels.otherTask);
+    }
+    if (!formData.package) missing.push(copy.details.requiredLabels.package);
+    if (!formData.carBrand) missing.push(copy.details.labels.brand);
+    if (!formData.carModel) missing.push(copy.details.labels.model);
+    if (!formData.carYear) missing.push(copy.details.labels.year);
+    if (!formData.carColor) missing.push(copy.details.labels.color);
+    if (!formData.name) missing.push(copy.details.labels.name);
+    if (!formData.phone) missing.push(copy.details.labels.phone);
+
+    return missing.filter(Boolean);
+  };
+
   const handleCategorySelect = (value) => {
     setFormData((prev) => ({ ...prev, serviceCategory: value }));
     setErrors("");
@@ -431,27 +470,16 @@ export default function QuizWizard({ open, onClose }) {
   };
 
   const validateStep4 = () => {
-    if (
-      !formData.carBrand ||
-      !formData.carModel ||
-      !formData.carYear ||
-      !formData.carColor ||
-      !formData.name ||
-      !formData.phone
-    ) {
-      return copy.details.error;
+    const missingFields = getMissingFields();
+    if (missingFields.length) {
+      return `${copy.details.missingFieldsLabel} ${missingFields.join(", ")}`;
     }
+
     const yearNumber = Number(formData.carYear);
     if (Number.isNaN(yearNumber) || yearNumber < 1980 || yearNumber > 2026) {
-      return copy.details.error;
+      return copy.details.invalidYear;
     }
-    if (
-      formData.serviceCategory === "other" &&
-      formData.serviceOtherText.trim().length === 0
-    ) {
-      return copy.details.error;
-    }
-    if (!formData.package) return copy.details.error;
+
     return "";
   };
 
