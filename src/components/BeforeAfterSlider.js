@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SkeletonImage from "./SkeletonImage";
 
 export default function BeforeAfterSlider({ images }) {
   const { t } = useLanguage();
@@ -82,18 +83,24 @@ export default function BeforeAfterSlider({ images }) {
         >
           <div className="relative w-full h-full cursor-pointer">
             {/* Долно изображение (След) */}
-            <img
-              src={images[index].after}
-              alt={t("portfolio.slider.after")}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            <div className="absolute inset-0">
+              <SkeletonImage
+                src={images[index].after}
+                alt={t("portfolio.slider.after")}
+                className="h-full w-full"
+              />
+            </div>
             {/* Горно изображение (Преди), което се скрива чрез clip-path */}
-            <img
-              src={images[index].before}
-              alt={t("portfolio.slider.before")}
-              className="absolute inset-0 w-full h-full object-cover"
+            <div
+              className="absolute inset-0"
               style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-            />
+            >
+              <SkeletonImage
+                src={images[index].before}
+                alt={t("portfolio.slider.before")}
+                className="h-full w-full"
+              />
+            </div>
             {/* Линия на плъзгача */}
             <div
               className="absolute top-0 bottom-0 w-1 bg-white"

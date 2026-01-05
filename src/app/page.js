@@ -9,6 +9,7 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import ContactIcons from "@/components/ContactIcons";
 import Map from "@/components/Map";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SkeletonImage from "@/components/SkeletonImage";
 
 const QuizWizard = dynamic(() => import("@/components/QuizWizard"), { ssr: false });
 
@@ -88,7 +89,11 @@ export default function Home() {
                 const service = t("services.items")?.[index];
                 return (
                   <div key={image} className="service-card p-6 flex flex-col justify-between">
-                    <div className="h-72 bg-cover bg-center rounded-lg" style={{ backgroundImage: `url('${image}')` }} />
+                    <SkeletonImage
+                      src={image}
+                      alt={service?.title || "Service"}
+                      className="h-72 w-full rounded-lg"
+                    />
                     <div>
                       <h3 className="text-2xl font-semibold mt-4">{service?.title}</h3>
                       <p>{service?.description}</p>
@@ -127,10 +132,11 @@ export default function Home() {
             <h2 className="text-5xl font-bold mb-8">{t("contacts.title")}</h2>
 
             <div className="mt-8">
-              <img
+              <SkeletonImage
                 src="/images/master.jpg"
                 alt={t("contacts.expert")}
-                className="mx-auto rounded-full w-32 h-32 object-cover"
+                className="mx-auto h-32 w-32 rounded-full"
+                imageClassName="rounded-full"
               />
               <p className="text-white mt-4">
                 <b>{t("contacts.expert")}</b>

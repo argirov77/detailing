@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import SkeletonImage from "./SkeletonImage";
 
 export default function BeforeAfterSlider({ beforeImage, afterImage }) {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -28,12 +29,14 @@ export default function BeforeAfterSlider({ beforeImage, afterImage }) {
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
     >
-      <img src={afterImage} alt="After" className="absolute top-0 left-0 w-full h-full object-cover" />
+      <div className="absolute inset-0">
+        <SkeletonImage src={afterImage} alt="After" className="h-full w-full" />
+      </div>
       <div
         className="absolute top-0 left-0 h-full overflow-hidden"
         style={{ width: `${sliderPosition}%` }}
       >
-        <img src={beforeImage} alt="Before" className="w-full h-full object-cover" />
+        <SkeletonImage src={beforeImage} alt="Before" className="h-full w-full" />
       </div>
       <div
         className="absolute top-0 h-full border-l-2 border-white"

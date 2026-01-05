@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SkeletonImage from "./SkeletonImage";
 
 const QUIZ_ENDPOINT =
   process.env.NEXT_PUBLIC_QUIZ_ENDPOINT ||
@@ -386,27 +387,39 @@ export default function QuizWizard({ open, onClose }) {
   }, [open, onClose]);
 
   useEffect(() => {
-    setContentAnimating(true);
-    const timeout = setTimeout(() => setContentAnimating(false), 220);
-    return () => clearTimeout(timeout);
+    let timeout;
+    const rafId = requestAnimationFrame(() => {
+      setContentAnimating(true);
+      timeout = setTimeout(() => setContentAnimating(false), 220);
+    });
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (timeout) clearTimeout(timeout);
+    };
   }, [step]);
 
   const displayedImage = step === "success" ? stepImages.success : stepImages[step];
 
   useEffect(() => {
-    setImageStack((prev) => {
-      const nextId = prev[0]?.id + 1 || 0;
-      if (prev[0]?.src === displayedImage) return prev;
-      const nextLayer = { src: displayedImage, id: nextId, visible: true };
-      const fadingLayer = { ...prev[0], visible: false };
-      const layers = [nextLayer];
-      if (fadingLayer.src) layers.push(fadingLayer);
-      return layers;
+    let cleanup;
+    const rafId = requestAnimationFrame(() => {
+      setImageStack((prev) => {
+        const nextId = prev[0]?.id + 1 || 0;
+        if (prev[0]?.src === displayedImage) return prev;
+        const nextLayer = { src: displayedImage, id: nextId, visible: true };
+        const fadingLayer = { ...prev[0], visible: false };
+        const layers = [nextLayer];
+        if (fadingLayer.src) layers.push(fadingLayer);
+        return layers;
+      });
+      cleanup = setTimeout(() => {
+        setImageStack((prev) => [prev[0]]);
+      }, 220);
     });
-    const cleanup = setTimeout(() => {
-      setImageStack((prev) => [prev[0]]);
-    }, 220);
-    return () => clearTimeout(cleanup);
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (cleanup) clearTimeout(cleanup);
+    };
   }, [displayedImage]);
 
   useEffect(() => () => autoAdvanceRef.current && clearTimeout(autoAdvanceRef.current), []);
@@ -943,14 +956,19 @@ export default function QuizWizard({ open, onClose }) {
 
         <div className="absolute inset-0 h-full w-full md:relative md:inset-auto md:h-auto md:w-5/12 md:min-h-full md:after:pointer-events-none md:after:absolute md:after:top-0 md:after:right-0 md:after:h-full md:after:w-14 md:after:bg-gradient-to-r md:after:from-transparent md:after:to-[#0f172a]/90">
           {imageStack.map((layer) => (
-            <img
+            <div
               key={layer.id}
-              src={layer.src}
-              alt="Founder"
-              className={`absolute inset-0 h-full w-full scale-[1.03] object-cover transition-all duration-500 ease-out ${
+              className={`absolute inset-0 transition-all duration-500 ease-out ${
                 layer.visible ? "opacity-100" : "translate-y-1 opacity-0"
               }`}
-            />
+            >
+              <SkeletonImage
+                src={layer.src}
+                alt="Founder"
+                className="h-full w-full scale-[1.03]"
+                imageClassName="object-cover"
+              />
+            </div>
           ))}
           <div className="absolute inset-0 bg-black/45" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
