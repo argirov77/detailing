@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const QUIZ_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbySCYHtLAbjS1w2kQVDSV-L78rxtzScGpia_reiDMtY5hkT2ugNrHoMWQDcHZmemQJT/exec";
+const QUIZ_ENDPOINT = "/api/quiz";
 
 const quizCopy = {
   bg: {
