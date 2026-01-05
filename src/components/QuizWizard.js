@@ -360,6 +360,7 @@ export default function QuizWizard({ open, onClose }) {
   ]);
 
   const overlayRef = useRef(null);
+  const contentRef = useRef(null);
   const autoAdvanceRef = useRef(null);
 
   useEffect(() => {
@@ -397,6 +398,19 @@ export default function QuizWizard({ open, onClose }) {
       if (timeout) clearTimeout(timeout);
     };
   }, [step]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const target = contentRef.current;
+    const raf = requestAnimationFrame(() => {
+      if (target) {
+        target.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [step, open]);
 
   const displayedImage = step === "success" ? stepImages.success : stepImages[step];
 
@@ -607,7 +621,7 @@ export default function QuizWizard({ open, onClose }) {
                 key={key}
                 onClick={() => handleCategorySelect(key)}
                 className={`min-h-[52px] rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left text-white transition hover:border-white/30 hover:bg-white/10 ${
-                  formData.serviceCategory === key ? "ring-2 ring-white/60" : ""
+                  formData.serviceCategory === key ? "border-white/50 shadow-md shadow-white/10" : ""
                 }`}
               >
                 {copy.category.options[key]}
@@ -671,7 +685,7 @@ export default function QuizWizard({ open, onClose }) {
                   key={card}
                   onClick={() => handlePackageSelect(card)}
                   className={`group relative flex h-full flex-col gap-3 overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4 text-left text-white shadow-lg transition hover:-translate-y-1 hover:border-white/40 hover:bg-white/10 hover:shadow-xl ${
-                    selected ? "ring-2 ring-offset-2 ring-offset-[#0f172a] ring-white/70" : ""
+                    selected ? "border-white/60 shadow-xl" : ""
                   }`}
                 >
                   <span className={`h-1.5 w-full rounded-full bg-gradient-to-r ${accentStyle}`} />
@@ -685,7 +699,7 @@ export default function QuizWizard({ open, onClose }) {
                       </span>
                     ) : null}
                   </div>
-                  <ul className="space-y-2 rounded-lg bg-white/5 p-3 text-sm text-white/80 ring-1 ring-inset ring-white/5">
+                  <ul className="space-y-2 rounded-lg bg-white/5 p-3 text-sm text-white/80">
                     {copy.packages.cards[card].bullets.map((item) => (
                       <li key={item} className="flex items-start gap-2">
                         <span
@@ -699,7 +713,7 @@ export default function QuizWizard({ open, onClose }) {
               );
             })}
           </div>
-          <div className="sticky bottom-0 left-0 right-0 -mx-5 -mb-5 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-5 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
+          <div className="sticky bottom-0 left-0 right-0 -mx-4 -mb-4 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
             <button
               onClick={() => goToStep(2)}
               className="min-h-[52px] rounded-lg border border-white/20 px-4 py-2 text-white transition hover:border-white/40 hover:bg-white/10"
@@ -906,7 +920,7 @@ export default function QuizWizard({ open, onClose }) {
             </div>
           </div>
           {errors && <p className="text-sm text-red-300">{errors}</p>}
-          <div className="sticky bottom-0 left-0 right-0 -mx-5 -mb-5 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-5 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
+          <div className="sticky bottom-0 left-0 right-0 -mx-4 -mb-4 mt-6 flex min-h-[92px] items-center justify-between gap-3 rounded-b-xl bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-4 md:static md:-mx-0 md:-mb-0 md:min-h-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
             <button
               type="button"
               onClick={() => goToStep(3)}
@@ -944,7 +958,7 @@ export default function QuizWizard({ open, onClose }) {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex min-h-[100dvh] items-end justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] pt-[calc(env(safe-area-inset-top)+1.25rem)] backdrop-blur md:items-center"
+      className="fixed inset-0 z-50 flex min-h-[100dvh] items-end justify-center overflow-x-hidden overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] pt-[calc(env(safe-area-inset-top)+1.25rem)] backdrop-blur md:items-center"
     >
       <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row md:items-stretch">
         <button
@@ -974,7 +988,10 @@ export default function QuizWizard({ open, onClose }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
         </div>
 
-        <div className="relative z-10 mt-auto flex w-full flex-col gap-3 rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:pb-8 md:shadow-none md:backdrop-blur-0">
+        <div
+          ref={contentRef}
+          className="relative z-10 mt-auto flex w-full flex-col gap-3 rounded-t-3xl bg-gradient-to-b from-[#0f172a]/80 to-[#0f172a]/70 px-4 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-xl backdrop-blur max-h-[78dvh] overflow-x-hidden overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:bg-transparent md:px-7 md:py-8 md:pb-8 md:shadow-none md:backdrop-blur-0"
+        >
           {step !== "success" && (
             <div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center gap-3 bg-gradient-to-b from-[#0f172a]/90 via-[#0f172a]/75 to-transparent px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)] md:static md:-mx-0 md:-mt-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
               <div className="text-sm font-semibold text-white/70">
@@ -989,7 +1006,7 @@ export default function QuizWizard({ open, onClose }) {
             </div>
           )}
           <div
-            className={`rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner transition-all duration-200 md:rounded-l-xl md:rounded-r-2xl ${
+            className={`rounded-2xl p-5 transition-all duration-200 md:rounded-l-xl md:rounded-r-2xl ${
               contentAnimating ? "translate-y-2 opacity-70" : "opacity-100"
             }`}
           >
