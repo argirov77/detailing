@@ -865,6 +865,8 @@ export default function QuizWizard({ open, onClose }) {
               <label className="text-sm text-white/70">{copy.details.labels.phone}</label>
               <input
                 type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
                 placeholder={copy.details.placeholders.phone}
@@ -922,31 +924,32 @@ export default function QuizWizard({ open, onClose }) {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 backdrop-blur"
+      className="fixed inset-0 z-50 flex min-h-[100dvh] items-end justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-6 pb-[env(safe-area-inset-bottom)] backdrop-blur md:items-center"
     >
-      <div className="relative flex w-full max-w-5xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row md:items-stretch">
+      <div className="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#111827] shadow-2xl md:h-[80vh] md:max-h-[80vh] md:flex-row md:items-stretch">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20"
+          className="absolute right-4 top-4 z-30 rounded-full bg-black/30 p-3 text-white transition hover:bg-black/45"
         >
           ✕
         </button>
 
-        <div className="relative h-52 w-full md:h-auto md:w-5/12 md:after:pointer-events-none md:after:absolute md:after:top-0 md:after:right-0 md:after:h-full md:after:w-14 md:after:bg-gradient-to-r md:after:from-transparent md:after:to-[#0f172a]/90">
+        <div className="absolute inset-0 h-full w-full md:relative md:inset-auto md:h-auto md:w-5/12 md:min-h-full md:after:pointer-events-none md:after:absolute md:after:top-0 md:after:right-0 md:after:h-full md:after:w-14 md:after:bg-gradient-to-r md:after:from-transparent md:after:to-[#0f172a]/90">
           {imageStack.map((layer) => (
             <img
               key={layer.id}
               src={layer.src}
               alt="Founder"
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ${
-                layer.visible ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 h-full w-full scale-[1.03] object-cover transition-all duration-500 ease-out ${
+                layer.visible ? "opacity-100" : "translate-y-1 opacity-0"
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10" />
+          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-5 md:-ml-6 md:px-7 md:py-8">
+        <div className="relative z-10 mt-auto flex w-full flex-col rounded-t-3xl border border-white/15 bg-white/10 bg-gradient-to-b from-white/12 to-white/6 px-4 py-4 shadow-2xl backdrop-blur-xl max-h-[78dvh] overflow-y-auto overscroll-contain md:-ml-6 md:mt-0 md:max-h-none md:flex-1 md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:px-7 md:py-8 md:shadow-none md:backdrop-blur-0">
           {step !== "success" && (
             <div className="mb-4 flex items-center gap-3">
               <div className="text-sm font-semibold text-white/70">
@@ -960,7 +963,6 @@ export default function QuizWizard({ open, onClose }) {
               </div>
             </div>
           )}
-
           <div
             className={`rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner transition-all duration-200 md:rounded-l-xl md:rounded-r-2xl ${
               contentAnimating ? "translate-y-2 opacity-70" : "opacity-100"
