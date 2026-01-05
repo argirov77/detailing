@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const QUIZ_ENDPOINT = "/api/quiz";
+const QUIZ_ENDPOINT =
+  process.env.NEXT_PUBLIC_QUIZ_ENDPOINT ||
+  "https://script.google.com/macros/s/AKfycbw7OLx9GbFH3XvsfgtycQ8B0CSPf2VawKi5cttVB2DH7eH4hFmjdMGcbkFSQ6xr72dF/exec";
 
 const quizCopy = {
   bg: {
@@ -504,29 +506,35 @@ export default function QuizWizard({ open, onClose }) {
       name: formData.name,
       phone: formData.phone,
       comment: formData.comment,
-      website: "",
     };
 
-    console.log("Submitting quiz payload", payload);
+    console.log("POST QUIZ →", QUIZ_ENDPOINT);
+    console.log("payload", payload);
+
+    const params = new URLSearchParams(payload);
 
     try {
       const response = await fetch(QUIZ_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: params.toString(),
       });
-      console.log("Quiz response status", response.status);
-      const responseText = await response.text();
-      console.log("Quiz response text", responseText);
+      console.log("status", response.status);
+      const text = await response.text();
+      console.log("raw response", text);
 
       let data = null;
       try {
-        data = JSON.parse(responseText);
+        data = JSON.parse(text);
       } catch (parseError) {
         console.error("Failed to parse quiz response", parseError);
       }
 
-      if (response.ok && data?.ok === true) {
+      const normalizedText = text.trim();
+      const textHasOk = /"ok"\s*:\s*true/i.test(text);
+      const isSuccess =
+        data?.ok === true || response.ok === true || textHasOk || normalizedText === "OK";
+
+      if (isSuccess) {
         setStep("success");
       } else {
         setErrors(copy.details.error);
